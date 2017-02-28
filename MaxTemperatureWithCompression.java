@@ -4,7 +4,6 @@ if (args.length != 2) {
 System.err.println("Usage: MaxTemperatureWithCompression <input path> " +
 "<output path>");
 System.exit(-1);
-www.it-ebooks.info
 }
 Job job = new Job();
 job.setJarByClass(MaxTemperature.class);
