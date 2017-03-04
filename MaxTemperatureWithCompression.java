@@ -18,19 +18,15 @@ public class MaxTemperatureWithCompression {
     }
 
     // vv MaxTemperatureWithMapOutputCompression
-    Configuration conf = new Configuration();
-    conf.setBoolean(Job.MAP_OUTPUT_COMPRESS, true);
-    conf.setClass(Job.MAP_OUTPUT_COMPRESS_CODEC, GzipCodec.class,
-        CompressionCodec.class);
     Job job = new Job(conf);
     // ^^ MaxTemperatureWithMapOutputCompression
     job.setJarByClass(MaxTemperature.class);
 
-    job.setOutputKeyClass(Text.class);
-    job.setOutputValueClass(IntWritable.class);
-
     FileInputFormat.addInputPath(job, new Path(args[0]));
     FileOutputFormat.setOutputPath(job, new Path(args[1]));
+    
+    job.setOutputKeyClass(Text.class);
+    job.setOutputValueClass(IntWritable.class);
     
     job.setMapperClass(MaxTemperatureMapper.class);
     job.setCombinerClass(MaxTemperatureReducer.class);
