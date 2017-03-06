@@ -1,5 +1,6 @@
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
@@ -14,35 +15,33 @@ import org.apache.hadoop.mapreduce.lib.chain.ChainReducer;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
  
-public class MaxTemperature {
+public class MaxTemperature_chaining {
 
   public static void main(String[] args) throws Exception {
     if (args.length != 2) {
-      System.err.println("Usage: MaxTemperature <input path> <output path>");
+      System.err.println("Usage: MaxTemperature <input path> <output 
+
+path>");
       System.exit(-1);
     }
     
     Configuration conf = getConf();
-    JobConf job = new JobConf(conf);
-    job.setJarByClass(MaxTemperature.class);
+    JobConf job = new JobConf(true);
+    job.setJarByClass(MaxTemperature_chaining.class);
     job.setJobName("Max temperature");
 
     FileInputFormat.addInputPath(job, new Path(args[0]));
     FileOutputFormat.setOutputPath(job, new Path(args[1]));
     
     JobConf map1Conf = new JobConf(false);
-    ChainMapper.addMapper(job, MaxTemperatureMapper.class, LongWritable.class,     Text.class, Text.class, IntWritable.class.class, true, map1Conf);
-
-JobConf reduceConf1 = new JobConf(false);
-ChainReducer.setReducer(job,
-                        MaxTemperatureReducer.class,
-                        Text.class,
-                        IntWritable.class,
-                        Text.class,
-                        IntWritable.class,
-                        true,
-                        reduceConf1);
-
+ChainMapper.addMapper(job,
+                      MaxTemperatureMapper.class,
+                      LongWritable.class,
+                      Text.class,
+                      Text.class,
+                      IntWritable.class,
+                      true,
+                      map1Conf);
 JobConf map2Conf = new JobConf(false);
 ChainMapper.addMapper(job,
                       MaxTemperatureMapper2.class,
