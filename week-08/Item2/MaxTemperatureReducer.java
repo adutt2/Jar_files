@@ -1,5 +1,7 @@
-import java.io.IOException;
 
+// Reducer to find Maximum and Minimum Temperatures
+
+import java.io.IOException;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
